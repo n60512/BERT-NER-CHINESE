@@ -1,0 +1,1 @@
+tensorboard --logdir=C:/Users/kobe24/Desktop/SideProject/BERT-NRT-CHINESE/log/output/20200904_16_52/runs

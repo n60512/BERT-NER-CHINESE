@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: 目前檔案",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "externalTerminal",            
+            "args": [
+                "--do_train",
+                "--evaluate_during_training",
+                "--train_file", "data/cner/dev.char.bmes",
+                "--device", "cuda",
+                "--output_dir", "",
+                "--model_name_or_path", "bert-base-chinese",
+                "--load_model_path", "",
+                "--max_seq_length", "128",
+                "--batch_size", "16",
+                "--learning_rate", "3e-5",
+                "--adam_epsilon", "1e-8",
+                "--num_train_epochs", "3",
+                "--warmup_steps", "0",
+                "--output_dir", "log/output",
+                "--evaluate_accumulation_steps", "500"
+            ]
+        },
+        {
+            "name": "Python:eval",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "externalTerminal",            
+            "args": [
+                "--do_eval",
+                "--train_file", "data/cner/test.char.bmes",
+                "--device", "cuda",
+                "--model_name_or_path", "bert-base-chinese",
+                "--load_model_path", "log/output/20200904_19_07",
+                "--batch_size", "16",
+                "--output_dir", "log/output",
+            ]
+        }
+        
+    ]
+}
