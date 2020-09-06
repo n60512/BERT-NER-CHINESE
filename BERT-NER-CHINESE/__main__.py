@@ -13,9 +13,8 @@ def train(args):
         len(train_loader),
         len(val_loader)
     )
-    
-
     print(args)
+
     # Load BERT QA pre-trained model
     model = BertForTokenClassification.from_pretrained(
         PRETRAINED_MODEL_NAME, 
@@ -45,8 +44,6 @@ def test(args):
     # high-level 顯示此模型裡的 modules
     displayBertModules(model)
     
-
-
     BertTC = BertTCTrainer(args, model, None, None, test_loader)
     BertTC.evaluate(tokenizer)
     pass
@@ -67,11 +64,3 @@ if __name__ == "__main__":
         pass
 
     pass
-
-
-
-
-stop = 1
-# res, index2entities, entities2index = make_cner(args.train_file)
-
-stop = 1

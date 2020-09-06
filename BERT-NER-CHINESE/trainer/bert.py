@@ -116,12 +116,11 @@ class BertTCTrainer():
             pass
         pass
 
-
     def evaluate(self, tokenizer, _write=False):
         f1_scores = []
         with torch.no_grad():
             self.model.eval()
-            for batch in tqdm(self.test_loader, desc='Eval'):
+            for batch in tqdm(self.test_loader, desc='Eval', ncols=80):
                 self.model.eval()
                 
                 tokens_tensors, segments_tensors, masks_tensors, labels = batch
@@ -136,30 +135,23 @@ class BertTCTrainer():
                         attention_mask=masks_tensors, 
                         labels=labels
                         )
-                    
-
-                    pred_entities = torch.argmax(
-                        outputs.logits, 
-                        dim=2
-                        )
-                    stop = 1
+                    # Get argmax output
+                    pred_entities = torch.argmax(outputs.logits, dim=2)
                     pass
                     
-                f1 = compute_f1(labels[0], pred_entities[0])
+                for gold_toks, pred_toks, masks_tensor in zip(labels, pred_entities, masks_tensors):
+                    
+                    # 只取 PADDING 前的 tokens
+                    sentence_len = sum(masks_tensor)
+                    gold_toks, pred_toks = gold_toks.tolist()[:sentence_len], pred_toks.tolist()[:sentence_len]
 
-                stop = 1
+                    # Caculate f1
+                    f1_scores.append(
+                        compute_f1(gold_toks, pred_toks)
+                        )
+                    pass
 
-            #     # Compute F1 score
-            #     f1 = compute_f1(gold_toks, pred_toks, tokenizer)
-            #     f1_scores.append(f1)
-
-            #     # Parm. for simplily display
-            #     displayLen = 30
-            #     displayStart = best_start-displayLen if best_start-displayLen>0 else 0
-            #     displayEnd = best_end+displayLen if best_end+displayLen>0 else 0
-            #     pass
-
-            # print('Average f1 : {}'.format(sum(f1_scores)/len(f1_scores)))
+            print('Average f1 : {}'.format(sum(f1_scores)/len(f1_scores)))
         pass
 
     def interaction(self, tokenizer, qa_text):

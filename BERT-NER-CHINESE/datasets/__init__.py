@@ -10,7 +10,7 @@ def dataset_factory(args, tokenizer):
     args.tag_nums = len(cner_dataset.index2entities)
 
     if(args.do_train):
-        train_size = int(0.9 * len(cner_dataset))
+        train_size = int(0.8 * len(cner_dataset))
         validation_size = len(cner_dataset) - train_size
         
         trainset, validationset = random_split(

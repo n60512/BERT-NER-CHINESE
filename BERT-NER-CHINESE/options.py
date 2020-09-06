@@ -3,10 +3,10 @@ import argparse
 parser = argparse.ArgumentParser()
 
 ## Required parameters
-parser.add_argument("--train_file", default=None, type=str, required=True,
+parser.add_argument("--train_file", default=None, type=str, required=False,
                    help="SQuAD json for training. E.g., train-v1.1.json")
-# parser.add_argument("--predict_file", default=None, type=str, required=True,
-#                    help="SQuAD json for predictions. E.g., dev-v1.1.json or test-v1.1.json")
+parser.add_argument("--predict_file", default=None, type=str, required=False,
+                   help="SQuAD json for predictions. E.g., dev-v1.1.json or test-v1.1.json")
 parser.add_argument('--device', type=str, required=True, default='cpu', choices=['cpu', 'cuda'])
 parser.add_argument("--output_dir", default=None, type=str, required=False,
                     help="The output directory where the model checkpoints and predictions will be written.")
@@ -20,7 +20,8 @@ parser.add_argument("--model_name_or_path", default=None, type=str, required=Tru
                     help="Path to pre-trained model or shortcut name selected in the list: ")
 parser.add_argument("--load_model_path", default=None, type=str, required=False,
                     help="Path to evaluation model")
-
+parser.add_argument("--load_entity_label_path", default=None, type=str, required=False,
+                    help="")
 
 parser.add_argument("--evaluate_during_training", action='store_true',
                     help="Rul evaluation during training at each logging step.")

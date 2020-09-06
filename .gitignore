@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 BERT-NER-CHINESE/log/output/*/model
 .bin
+*test.py

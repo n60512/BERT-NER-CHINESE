@@ -4,31 +4,39 @@ import torch, pandas, os
 
 class CNERDataset(Dataset):
     def __init__(self, args, tokenizer):
-
-        if(args.do_train):
-            self.res = make_cner('data/cner/train.char.bmes')
         
+        if(args.do_train):
+            self.mode = 'train'
+            lf = 'BERT-NER-CHINESE/data/cner/{}.char.bmes'.format(self.mode)
+            sf = 'BERT-NER-CHINESE/data/cner/cner.{}.csv'.format(self.mode)
+            _, self.index2entities, self.entities2index = make_cner(
+                loadfile = lf,
+                savefile = sf,
+                _entfile = args.load_entity_label_path
+                )
+            pass
         if(args.do_eval):
-            self.res = make_cner('data/cner/test.char.bmes')
+            self.mode = 'test'
+            lf = 'BERT-NER-CHINESE/data/cner/{}.char.bmes'.format(self.mode)
+            sf = 'BERT-NER-CHINESE/data/cner/cner.{}.csv'.format(self.mode)
+            _, self.index2entities, self.entities2index = make_cner(
+                loadfile = lf,
+                savefile = sf,
+                _entfile = args.load_entity_label_path
+                )
+            pass
 
-        self.index2entities, self.entities2index = make_cner(
-            'data/cner/train.char.bmes', 
-            _mode='r'
-            )
 
-        self.len = len(self.res)
+        self.df = pandas.read_csv(sf, sep=",")
+        self.len = len(self.df)
         self.tokenizer = tokenizer
-    
 
     def __getitem__(self, idx):
+        sen = self.df.iloc[idx, 0]
+        ent = self.df.iloc[idx, 1]
 
-        tokens_sen = list()
-        tokens_ent = list()
-        for i, w, e in self.res:
-            if(i==idx):
-                tokens_sen.append(w)
-                tokens_ent.append(e)
-            pass
+        tokens_sen = list(sen)
+        tokens_ent = [int(val) for val in ent.split(';')]
 
         # 建立第一個句子的 BERT tokens 並加入分隔符號 [SEP]
         word_pieces = ["[CLS]"]
@@ -48,8 +56,7 @@ class CNERDataset(Dataset):
         segments_tensor = torch.tensor([0] * len_sen, 
                                         dtype=torch.long)
 
-
         return (tokens_tensor, segments_tensor, labels_tensor)
-
+    
     def __len__(self):
         return self.len

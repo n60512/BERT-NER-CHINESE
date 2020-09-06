@@ -13,7 +13,7 @@
             
         },
         {
-            "name": "Python",
+            "name": "Python:train",
             "type": "python",
             "request": "launch",
             "program": "${file}",
@@ -21,19 +21,19 @@
             "args": [
                 "--do_train",
                 "--evaluate_during_training",
-                "--train_file", "data/cner/dev.char.bmes",
+                "--train_file", "BERT-NER-CHINESE/data/cner/train.char.bmes",
                 "--device", "cuda",
-                "--output_dir", "",
                 "--model_name_or_path", "bert-base-chinese",
                 "--load_model_path", "",
+                "--load_entity_label_path", "BERT-NER-CHINESE/data/cner/",
                 "--max_seq_length", "128",
                 "--batch_size", "16",
                 "--learning_rate", "3e-5",
                 "--adam_epsilon", "1e-8",
                 "--num_train_epochs", "3",
                 "--warmup_steps", "0",
-                "--output_dir", "log/output",
-                "--evaluate_accumulation_steps", "500"
+                "--output_dir", "BERT-NER-CHINESE/log/output",
+                "--evaluate_accumulation_steps", "20"
             ]
         },
         {
@@ -44,12 +44,13 @@
             "console": "externalTerminal",            
             "args": [
                 "--do_eval",
-                "--train_file", "data/cner/test.char.bmes",
+                "--predict_file", "BERT-NER-CHINESE/data/cner/test.char.bmes",
                 "--device", "cuda",
                 "--model_name_or_path", "bert-base-chinese",
-                "--load_model_path", "log/output/20200904_19_07",
+                "--load_model_path", "BERT-NER-CHINESE/log/output/20200906_12_11",
+                "--load_entity_label_path", "BERT-NER-CHINESE/data/cner/",
                 "--batch_size", "16",
-                "--output_dir", "log/output",
+                "--output_dir", "BERT-NER-CHINESE/log/output",
             ]
         }
         
