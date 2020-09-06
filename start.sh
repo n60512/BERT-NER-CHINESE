@@ -1,20 +1,15 @@
-export OUTPUT_DIR=germeval-model
-export BATCH_SIZE=32
-export NUM_EPOCHS=3
-export SAVE_STEPS=750
-export SEED=1
-export MAX_LENGTH=128
-export BERT_MODEL=bert-base-multilingual-cased
-
-python run_ner.py --data_dir ./ \
-    --labels ./labels.txt \
-    --model_name_or_path $BERT_MODEL \
-    --output_dir $OUTPUT_DIR \
-    --max_seq_length  $MAX_LENGTH \
-    --num_train_epochs $NUM_EPOCHS \
-    --per_device_train_batch_size $BATCH_SIZE \
-    --save_steps $SAVE_STEPS \
-    --seed $SEED \
+python BERT-NER-CHINESE \
     --do_train \
-    --do_eval \
-    --do_predict
+    --evaluate_during_training \
+    --train_file BERT-NER-CHINESE/data/cner/train.char.bmes \
+    --device cuda \
+    --model_name_or_path bert-base-chinese \
+    --load_entity_label_path BERT-NER-CHINESE/data/cner/ \
+    --max_seq_length 128 \
+    --batch_size 16 \
+    --learning_rate 3e-5 \
+    --adam_epsilon 1e-8 \
+    --num_train_epochs 3 \
+    --warmup_steps 0 \
+    --output_dir BERT-NER-CHINESE/log/output \
+    --evaluate_accumulation_steps 20

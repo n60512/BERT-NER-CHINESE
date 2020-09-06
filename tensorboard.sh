@@ -1,0 +1,1 @@
+tensorboard --logdir=BERT-NER-CHINESE\log\output\20200906_12_11\runs
