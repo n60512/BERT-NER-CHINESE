@@ -1,4 +1,5 @@
 # BERT-NER-CHINESE
+<<<<<<< HEAD
 
 使用 BERT 預訓練模型進行中文 NER 任務。
 
@@ -45,3 +46,5 @@ BERT (from Google) released with the paper[ BERT: Pre-training of Deep Bidirecti
 ![bert-ner](https://i.imgur.com/5SqW8xs.png)
 
 當兵前無事練習寫的 pytorch BERT-NER 模型，還有許多地方可以加強。
+=======
+>>>>>>> f5f34c0d76820d42f55b75fb6f45139c2cdd469e
